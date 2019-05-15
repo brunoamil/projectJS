@@ -3,36 +3,50 @@ titulo.textContent = "Bruno Nutricionista";
 
 // calculando o IMC
 
-var paciente = document.querySelector("#primeiro-paciente");
+var pacientes = document.querySelectorAll(".paciente");
 
-var tdPeso = paciente.querySelector(".info-peso");
-var peso = tdPeso.textContent;
+for(var i = 0; i < pacientes.length; i++){
+    var paciente = pacientes[i];
 
-var tdAltura = paciente.querySelector(".info-altura");
-var altura = tdAltura.textContent;
+    var tdPeso = paciente.querySelector(".info-peso");
+    var peso = tdPeso.textContent;
 
-var tdImc = paciente.querySelector(".info-imc");
+    var tdAltura = paciente.querySelector(".info-altura");
+    var altura = tdAltura.textContent;
 
-var pesoEhValido = true;
-var alturaEhValida = true;
+    var tdImc = paciente.querySelector(".info-imc");
 
-if(peso <= 0 || peso >= 1000) {
-    console.log("Peso invalido");
-    pesoEhValido = false;
-    tdImc.textContent = "peso invalido!";
+    var pesoEhValido = true;
+    var alturaEhValida = true;
+
+    if(peso <= 0 || peso >= 1000) {
+        console.log("Peso invalido");
+        pesoEhValido = false;
+        tdImc.textContent = "peso invalido!";
+        paciente.classList.add("paciente-invalido");
+    }
+
+    if(altura <= 0 || altura >= 3.0) {
+        console.log("Altura invalida");
+        alturaEhValida = false;
+        tdImc.textContent = "altura invalida!";
+        paciente.classList.add("paciente-invalido");
+    }
+
+    if(pesoEhValido && alturaEhValida){
+        var imc = peso / (altura * altura);
+        tdImc.textContent = imc.toFixed(2);
+    }
+
 }
 
-if(altura <= 0 || altura >= 3.0) {
-    console.log("Altura invalida");
-    alturaEhValida = false;
-    tdImc.textContent = "altura invalida!";
+// Adicionando novo paciente
 
-}
-
-if(pesoEhValido && alturaEhValida){
-    var imc = peso / (altura * altura);
-    tdImc.textContent = imc;
-}
+var botaoAdicionar = document.querySelector("#adicionar-paciente");
+botaoAdicionar.addEventListener("click",function(){
+    event.preventDefault();
+    console.log("Oi cliquei no botao");
+});
 
 
 
