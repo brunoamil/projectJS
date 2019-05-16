@@ -140,3 +140,8 @@ button:disabled {
   color: red;
   text-align: center;
 }
+
+.fadeOut {
+  opacity: 0;
+  transition: 0.5s;
+}
