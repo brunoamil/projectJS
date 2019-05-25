@@ -5,13 +5,15 @@ class NegociacaoController {
     this._inputData = $("#data");
     this._inputQuantidade = $("#quantidade");
     this._inputValor = $("#valor");
+    this._ordemAtual = "";
 
     //usando o Proxy do ES6
     this._listaNegociacoes = new Bind(
       new ListaNegociacoes(),
       new NegociacoesView($("#negociacoesView")),
       "adiciona",
-      "esvazia"
+      "esvazia",
+      "ordena"
     );
 
     /*ProxyFactory.create(
@@ -41,16 +43,90 @@ class NegociacaoController {
   //Consumindo o serviço de negociacoes
   importaNegociacoes() {
     let service = new NegociacaoService();
-    service.obterNegociacoesDaSemana((erro, negociacoes) => {
+    //Utilizando a Promise All
+
+    Promise.all([
+      service.obterNegociacoesDaSemana(),
+      service.obterNegociacoesDaSemanaAnterior(),
+      service.obterNegociacoesDaSemanaRetrasada()
+    ])
+      .then(negociacoes => {
+        negociacoes
+          .reduce((arrayAchatado, array) => arrayAchatado.concat(array), [])
+          .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+        this._mensagem.texto = "Negociacoes importadas com sucesso";
+      })
+      .catch(error => (this._mensagem.texto = error));
+
+    /*
+    // 2 TESTE DE CONSUMIR O SERVIÇO
+    //Utilizando promise para consumir o serviço
+    
+    service
+      .obterNegociacoesDaSemana()
+      .then(negociacoes => {
+        negociacoes.forEach(negociacao =>
+          this._listaNegociacoes.adiciona(negociacao)
+        );
+        this._mensagem.texto = "negociacoes da semana obtidas com sucesso";
+      })
+      .catch(erro => (this._mensagem.texto = erro));
+
+    service
+      .obterNegociacoesDaSemanaAnterior()
+      .then(negociacoes => {
+        negociacoes.forEach(negociacao =>
+          this._listaNegociacoes.adiciona(negociacao)
+        );
+        this._mensagem.texto = "negociacoes da semana obtidas com sucesso";
+      })
+      .catch(erro => (this._mensagem.texto = erro));
+
+    service
+      .obterNegociacoesDaSemanaRetrasada()
+      .then(negociacoes => {
+        negociacoes.forEach(negociacao =>
+          this._listaNegociacoes.adiciona(negociacao)
+        );
+        this._mensagem.texto = "negociacoes da semana obtidas com sucesso";
+      })
+      .catch(erro => (this._mensagem.texto = erro));
+
+      // 1 TESTE DE CONSUMIR O SERVIÇO 
+    service.obterNegocisacoesDaSemana((erro, negociacoes) => {
       if (erro) {
         this._mensagem.texto = erro;
         return;
       }
 
       //caso nao caia no if err ele vai fazer isto.
-      negociacoes.forEach(negociacao => this._listaNegociacoes(negociacao));
-      this._mensagem.texto = "Negociacoes importadas com sucesso";
-    });
+      negociacoes.forEach(negociacao =>
+        this._listaNegociacoes.adiciona(negociacao)
+      );
+
+      service.obterNegociacoesDaSemanaAnterior((erro, negociacoes) => {
+        if (erro) {
+          this._mensagem.texto = erro;
+          return;
+        }
+        //caso nao caia no if err ele vai fazer isto.
+        negociacoes.forEach(negociacao =>
+          this._listaNegociacoes.adiciona(negociacao)
+        );
+
+        service.obterNegociacoesDaSemanaRetrasada((erro, negociacoes) => {
+          if (erro) {
+            this._mensagem.texto = erro;
+            return;
+          }
+          //caso nao caia no if err ele vai fazer isto.
+          negociacoes.forEach(negociacao =>
+            this._listaNegociacoes.adiciona(negociacao)
+          );
+          this._mensagem.texto = "Negociacoes importadas com sucesso";
+        });
+      });
+    }); */
   }
   apaga() {
     this._listaNegociacoes.esvazia();
@@ -71,5 +147,16 @@ class NegociacaoController {
     this._inputQuantidade.value = 1;
     this._inputValor.value = 0.0;
     this._inputData.focus();
+  }
+
+  // ordenando dados na tabela
+  ordena(coluna) {
+    if (this._ordemAtual == coluna) {
+      this._listaNegociacoes.inverteOrdem();
+    } else {
+      this._listaNegociacoes.ordena((a, b) => a[coluna] - b[coluna]);
+    }
+
+    this._ordemAtual = coluna;
   }
 }
