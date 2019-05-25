@@ -38,6 +38,20 @@ class NegociacaoController {
     this._limpaFormulario();
   }
 
+  //Consumindo o serviço de negociacoes
+  importaNegociacoes() {
+    let service = new NegociacaoService();
+    service.obterNegociacoesDaSemana((erro, negociacoes) => {
+      if (erro) {
+        this._mensagem.texto = erro;
+        return;
+      }
+
+      //caso nao caia no if err ele vai fazer isto.
+      negociacoes.forEach(negociacao => this._listaNegociacoes(negociacao));
+      this._mensagem.texto = "Negociacoes importadas com sucesso";
+    });
+  }
   apaga() {
     this._listaNegociacoes.esvazia();
     this._mensagem.texto = "Negociacoes apagadas com sucesso";
