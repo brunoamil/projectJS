@@ -1,13 +1,14 @@
 class ListaNegociacoes {
-  constructor(armadilha) {
+  constructor() {
     this._negociacoes = [];
-    this._armadilha = armadilha;
+    //this._armadilha = armadilha;
   }
 
   //metodo
   adiciona(negociacao) {
     this._negociacoes.push(negociacao);
-    this._armadilha(this);
+    //this._negociacoes = [].concat(this._negociacoes, negociacao);
+    //this._armadilha(this);
     // usando api reflect para enviar o this do ListaNegociacoes para o NegociacaoController
     //Reflect.apply(this._armadilha, this._contexto, [this]);
   }
@@ -20,7 +21,7 @@ class ListaNegociacoes {
   //apagando todas as negociacoes da lista
   esvazia() {
     this._negociacoes = [];
-    this._armadilha(this);
+    //this._armadilha(this);
     // Reflect.apply(this._armadilha, this._contexto, [this]);
   }
 }
