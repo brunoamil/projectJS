@@ -6,7 +6,6 @@ var ConnectionFactory = (function () {
     const dbName = 'aluraframe';
     var connection = null; 
 
-    dbName = 'bruno';
     var close = null;
 
     return class ConnectionFactory {
