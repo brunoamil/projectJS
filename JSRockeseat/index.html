@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testando o JS</title>
+    </head>
+<body>
+    <h2>teste</h2>
+
+    <script>
+
+        function exibeHabilidades(usuarios){
+            for(usuario of usuarios){
+                console.log(`O ${usuario.nome} possui  as habilidades: ${usuario.habilidades.join(", ")}`);
+            }
+        }
+       var usuarios = [
+           {
+               nome: "Diego",
+               habilidades: ["Javascript", "ReactJS", "Redux"]
+           },
+           {
+               nome: "Gabriel",
+               habilidades: ["VueJS", "Ruby", "Elixir"]
+           }
+       ];
+
+       exibeHabilidades(usuarios);
+
+    </script>
+</body>
+</html>
