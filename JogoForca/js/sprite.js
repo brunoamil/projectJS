@@ -45,3 +45,4 @@ var createSprite = function(selector) {
     isFinished: isFinished
   };
 };
+
