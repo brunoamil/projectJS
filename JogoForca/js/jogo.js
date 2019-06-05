@@ -28,6 +28,9 @@ var criaJogo = function(sprite) {
   };
   var processaChute = function(chute){
      // 3 variaveis definidas diretamente sem precisar repetir o VAR
+
+     if(!chute.trim()) throw Error('Chute invalido');
+
       var exp = new RegExp(chute, 'gi'),
        resultado,
        acertou = false;
@@ -52,6 +55,9 @@ var criaJogo = function(sprite) {
     etapa = 2;
   };
   var setPalavraSecreta = function(palavra) {
+
+    if(!palavra.trim()) throw Error('Palavra secreta invalida');
+
     palavraSecreta = palavra;
     //funcao para criar lacunas
     criaLacunas();
