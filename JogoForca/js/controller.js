@@ -1,76 +1,66 @@
-var criaController = function(jogo){
-    var $entrada = $('.entrada');
-    var $lacunas = $('.lacunas');
+const criaController = jogo => {
 
-    // consulta jogo.getLacunas() e exibe para o usuário cada lacuna 
+    const $entrada = $('.entrada');
+    const $lacunas = $('.lacunas');
 
-    var exibeLacunas = function () {
+    const exibeLacunas = () => {
+
         $lacunas.empty();
-        jogo.getLacunas().forEach(function(lacuna){
+        jogo.getLacunas().forEach(function (lacuna) {
             $('<li>')
-            .addClass('lacuna')
-            .text(lacuna)
-            .appendTo($lacunas);
+                .addClass('lacuna')
+                .text(lacuna)
+                .appendTo($lacunas);
         });
     };
 
-    // muda o texto do placeHolder do campo de entrada    
-    var mudaPlaceHolder = function (texto) {
+    const mudaPlaceHolder = texto => $entrada.attr('placeholder', texto);
 
-       $entrada.attr('placeholder', texto);
-    };
+    const guardaPalavraSecreta = () => {
 
-    // passa para jogo.setPalavraSecreta() o valor digitado pelo jogador e chama o a função `exibeLacunas()` e `mudaPlaceHolder()` definidas no controller. 
-
-    var guardaPalavraSecreta = function () {
-        try{
+        try {
             jogo.setPalavraSecreta($entrada.val().trim());
             $entrada.val('');
             mudaPlaceHolder('chuta');
             exibeLacunas();
-        } catch(err){
+        } catch(err) {
             alert(err.message);
         }
-       
     };
 
-    var reinicia = function(){
+    const reinicia = () => {
+
         jogo.reinicia();
-            $lacunas.empty();
-            mudaPlaceHolder('palavra secreta');
+        $lacunas.empty();
+        mudaPlaceHolder('palavra secreta');
     };
 
-    var leChute = function(){
+    const leChute = () => {
 
         try {
             jogo.processaChute($entrada.val().trim().substr(0, 1));
             $entrada.val('');
             exibeLacunas();
     
-            if(jogo.ganhouOuPerdeu()){
+            if(jogo.ganhouOuPerdeu()) {
     
-                setTimeout(function(){
-                    if(jogo.ganhou()){
-                        alert("Parabens, voce ganhou");
-                    } else if(jogo.perdeu()) {
-                        alert("Que pena, tente novamente");
+                setTimeout(() => {
+                    if(jogo.ganhou()) {
+                        alert('Parabéns, você ganhou');
+                    } else if (jogo.perdeu()) {
+                        alert('Que pena, tente novamente')
                     }
+                    reinicia();                    
                 }, 200);
-                
-    
-                reinicia();
             }
-        } catch(err){
+        } catch(err) {
             alert(err.message);
         }
-
-       
     };
 
-    // faz a associação do evento keypress para capturar a entrada do usuário toda vez que ele teclar ENTER
-    var inicia = function () {
+    const inicia = () => {
 
-        $entrada.keypress(function (event) {
+        $entrada.keypress(event => {
             if (event.which == 13) {
                 switch (jogo.getEtapa()) {
                     case 1:
@@ -84,7 +74,5 @@ var criaController = function(jogo){
         });
     };
 
-    // retorna um objeto com a propriedade inicia, que deve ser chamada assim que o controller for criado. 
-    return { inicia: inicia };
-
+    return { inicia };
 };
