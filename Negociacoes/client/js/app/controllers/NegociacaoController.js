@@ -32,39 +32,35 @@ class NegociacaoController {
       this._mensagemView.update(model)
     ); */
 
-
     //consumindo o connectionfactor e negociacaoDao
-    ConnectionFactory
-      .getConnection()
+    ConnectionFactory.getConnection()
       .then(connection => new NegociacaoDao(connection))
       .then(dao => dao.listaTodos())
-      .then(negociacoes => 
-        negociacoes.forEach(negociacao => 
-          this._listaNegociacoes.adiciona(negociacao)))
-      .catch(erro =>  {
+      .then(negociacoes =>
+        negociacoes.forEach(negociacao =>
+          this._listaNegociacoes.adiciona(negociacao)
+        )
+      )
+      .catch(erro => {
         console.log(erro);
         this._mensagem.texto = error;
       });
   }
 
-
   adiciona(event) {
     event.preventDefault();
 
-    ConnectionFactory
-      .getConnection()
+    ConnectionFactory.getConnection()
       .then(connection => {
         let negociacao = this._criaNegociacao();
 
-        new NegociacaoDao(connection)
-            .adiciona(negociacao)
-            .then(() => {
-                this._listaNegociacoes.adiciona(negociacao);
-                this._mensagem.texto = 'Negociacao adicionada com sucesso';
-                this._limpaFormulario();
-            })
+        new NegociacaoDao(connection).adiciona(negociacao).then(() => {
+          this._listaNegociacoes.adiciona(negociacao);
+          this._mensagem.texto = "Negociacao adicionada com sucesso";
+          this._limpaFormulario();
+        });
       })
-      .catch(erro => this._mensagem.texto = erro);
+      .catch(erro => (this._mensagem.texto = erro));
   }
 
   //Consumindo o serviço de negociacoes
@@ -156,17 +152,13 @@ class NegociacaoController {
     }); */
   }
   apaga() {
-
-    ConnectionFactory
-      .getConnection()
+    ConnectionFactory.getConnection()
       .then(connection => new NegociacaoDao(connection))
       .then(dao => dao.apagaTodos())
       .then(mensagem => {
         this._mensagem.texto = mensagem;
         this._listaNegociacoes.esvazia();
       });
-
-   
   }
 
   _criaNegociacao() {
