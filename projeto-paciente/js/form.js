@@ -10,29 +10,21 @@ botaoAdicionar.addEventListener("click", function(event){
     var pacienteTr = montaTr(paciente);
 
     var erros = validaPaciente(paciente);
-    console.log(erros);
+    //console.log(erros);
     if(erros.length > 0) {
         exibeMensagensDeErro(erros);
         return;
     }
     
     var tabela = document.querySelector("#tabela-pacientes");
+
     tabela.appendChild(pacienteTr);
 
     form.reset();
+
     var mensagensErro = document.querySelector("#mensagens-erro");
     mensagensErro.innerHTML = "";
 });
-
-function exibeMensagensDeErro(erros){
-    var ul = document.querySelector("#mensagens-erro");
-    ul.innerHTML = "";
-    erros.forEach(function(erro){
-        var li = document.createElement("li");
-        li.textContent = erro;
-        ul.appendChild(li);
-    });
-}
 
 function obtemPacienteDoFormulario(form){
     //extraindo infor do form/input
@@ -98,3 +90,21 @@ function validaPaciente(paciente){
 
     return erros;
 }
+
+function exibeMensagensDeErro(erros){
+    var ul = document.querySelector("#mensagens-erro");
+    ul.innerHTML = "";
+
+    erros.forEach(function(erro){
+        var li = document.createElement("li");
+        li.textContent = erro;
+        ul.appendChild(li);
+    });
+}
+
+
+
+
+
+
+
