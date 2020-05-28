@@ -10,7 +10,9 @@ export class Cliente {
         this._senha = senha;
     }
 
-    autenticar() {
-        return false;
+    autenticar(){
+        return true;
     }
+
+    
 }
