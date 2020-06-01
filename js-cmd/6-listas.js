@@ -24,6 +24,3 @@ listaDeDestinos.splice(1,1);
 console.log(listaDeDestinos);
 console.log(listaDeDestinos[1], listaDeDestinos[0]);
 
-listaDeDestinos.forEach(function(lista){
-    console.log(lista);
-})
