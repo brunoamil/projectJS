@@ -22,9 +22,13 @@ class NegociacaoController {
     adiciona(event) {
         
         event.preventDefault();
-        this._listaNegociacoes.adiciona(this._criaNegociacao());
-        this._mensagem.texto = 'Negociação adicionada com sucesso';
-        this._limpaFormulario();   
+        try {
+            this._listaNegociacoes.adiciona(this._criaNegociacao());
+            this._mensagem.texto = 'Negociação adicionada com sucesso'; 
+            this._limpaFormulario();   
+        } catch(erro) {
+            this._mensagem.texto = erro;
+        }   
     }
 
     importaNegociacoes(){
@@ -119,5 +123,8 @@ class NegociacaoController {
         this._inputQuantidade.value = 1;
         this._inputValor.value = 0.0;
         this._inputData.focus();   
+    }
+    ordena(coluna) {
+
     }
 }
