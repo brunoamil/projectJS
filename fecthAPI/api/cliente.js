@@ -30,3 +30,22 @@ const cadastrarClientes = (nome, cpf) => {
     })
 }
  
+
+// CRIANDO REQUISICAO DE DELETE
+const deletaCliente = id => {
+    return fetch(`http://localhost.com/clientes/cliente/${id}`, {
+        method: "DELETE"
+    })
+}
+
+// PEGANDO OS DADOS DA API PARA ALTERACAO
+
+const detalhaCliente = id => {
+    return fetch(`http://localhost.com/clientes/cliente/${id}`,
+    {
+        method: "GET"
+    })
+    .then(resposta => {
+        return resposta.json()
+    })
+}
