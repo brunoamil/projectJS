@@ -49,3 +49,18 @@ const detalhaCliente = id => {
         return resposta.json()
     })
 }
+
+// EDITA CLIENTE
+const editaCliente = (id, cpf, nome) => {
+     const json = JSON.stringify({
+         nome: nome,
+         cpf: cpf
+     })
+     return fetch(`http://localhost.com/clientes/cliente/${id}`, {
+         method: "PUT",
+         headers: {
+             'Content-type': 'application/json'
+         },
+         body: json
+     })
+}
